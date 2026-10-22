@@ -41,6 +41,7 @@ jobs:
         if: steps.bump.outputs.casks != ''
         env:
           CASKS: ${{ steps.bump.outputs.casks }}
+          HOMEBREW_GITHUB_API_TOKEN: ${{ github.token }}
         run: |
           for cask in $CASKS; do
             .github/scripts/test-cask.sh "$cask"

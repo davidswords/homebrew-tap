@@ -27,6 +27,8 @@ jobs:
         run: brew style davidswords/tap
 
       - name: Test each cask
+        env:
+          HOMEBREW_GITHUB_API_TOKEN: ${{ github.token }}
         run: |
           shopt -s nullglob
           casks=(Casks/*.rb)
