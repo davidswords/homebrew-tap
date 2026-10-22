@@ -21,16 +21,14 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Use this checkout as the davidswords/tap tap
-        run: |
-          tap_dir="$(brew --repository)/Library/Taps/davidswords/homebrew-tap"
-          mkdir -p "$(dirname "$tap_dir")"
-          ln -s "$GITHUB_WORKSPACE" "$tap_dir"
+      - run: .github/scripts/use-checkout-as-tap.sh
 
       - name: Check style
         run: brew style davidswords/tap
 
-      - name: Audit, install and uninstall each cask
+      - name: Test each cask
+        env:
+          HOMEBREW_GITHUB_API_TOKEN: ${{ github.token }}
         run: |
           shopt -s nullglob
           casks=(Casks/*.rb)
@@ -39,9 +37,5 @@ jobs:
             exit 1
           fi
           for file in "${casks[@]}"; do
-            cask="davidswords/tap/$(basename "$file" .rb)"
-            brew trust --cask "$cask"
-            brew audit --cask --strict --online "$cask"
-            brew install --cask "$cask"
-            brew uninstall --cask --zap "$cask"
+            .github/scripts/test-cask.sh "$(basename "$file" .rb)"
           done
