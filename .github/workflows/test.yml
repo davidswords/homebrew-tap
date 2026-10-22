@@ -40,6 +40,7 @@ jobs:
           fi
           for file in "${casks[@]}"; do
             cask="davidswords/tap/$(basename "$file" .rb)"
+            brew trust --cask "$cask"
             brew audit --cask --strict --online "$cask"
             brew install --cask "$cask"
             brew uninstall --cask --zap "$cask"
