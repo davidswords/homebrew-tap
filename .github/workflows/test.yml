@@ -1,0 +1,46 @@
+name: Test casks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: test-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: macos-15
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Use this checkout as the davidswords/tap tap
+        run: |
+          tap_dir="$(brew --repository)/Library/Taps/davidswords/homebrew-tap"
+          mkdir -p "$(dirname "$tap_dir")"
+          ln -s "$GITHUB_WORKSPACE" "$tap_dir"
+
+      - name: Check style
+        run: brew style davidswords/tap
+
+      - name: Audit, install and uninstall each cask
+        run: |
+          shopt -s nullglob
+          casks=(Casks/*.rb)
+          if [ "${#casks[@]}" -eq 0 ]; then
+            echo "::error::No casks found in Casks/"
+            exit 1
+          fi
+          for file in "${casks[@]}"; do
+            cask="davidswords/tap/$(basename "$file" .rb)"
+            brew audit --cask --strict --online "$cask"
+            brew install --cask "$cask"
+            brew uninstall --cask --zap "$cask"
+          done
