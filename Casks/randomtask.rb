@@ -15,7 +15,18 @@ cask "randomtask" do
   depends_on arch: :arm64
   depends_on :macos
 
+  # A `randomtask` command that opens the app, as clicking it does.
+  shimscript = "#{staged_path}/randomtask.wrapper.sh"
+
   app "randomtask.app"
+  binary shimscript, target: "randomtask"
+
+  preflight do
+    File.write shimscript, <<~EOS
+      #!/bin/sh
+      exec open -a "#{appdir}/randomtask.app"
+    EOS
+  end
 
   # Includes the files of randomnote, the app's name up to 0.2.0.
   zap trash: [

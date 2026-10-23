@@ -14,4 +14,4 @@ Homebrew requires you to trust casks from third-party taps before it uses them. 
 
 | Cask | App |
 |---|---|
-| `randomtask` | [randomtask](https://github.com/davidswords/randomtask), a minimal, client-side encrypted todo app. Formerly `randomnote`; `brew upgrade` moves existing installs over. |
+| `randomtask` | [randomtask](https://github.com/davidswords/randomtask), a minimal, client-side encrypted todo app. Formerly `randomnote`; `brew upgrade` moves existing installs over. Also installs a `randomtask` command that opens the app. |
