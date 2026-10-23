@@ -1,6 +1,6 @@
 cask "randomtask" do
-  version "0.3.0"
-  sha256 "2eb63edc6f7e7cb7526a0fddc0542da7568d379223211d4a8af00619cdecab94"
+  version "0.3.1"
+  sha256 "51de88d203f2f20833c360f7c49f28f8e7e1012a34a3b0a1d1134c61c65ed2a5"
 
   url "https://github.com/davidswords/randomtask/releases/download/v#{version}/randomtask_#{version}_aarch64.dmg"
   name "randomtask"
