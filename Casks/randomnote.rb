@@ -1,6 +1,6 @@
 cask "randomnote" do
-  version "0.1.1"
-  sha256 "149f44cc10dba56fb820d4a88daeac6b7a609193f2ab082615c8e8ec5ad20317"
+  version "0.2.0"
+  sha256 "6650743eeb81b8591459ef2ad6daaff3f6e8490e7e99b2191cfd4bb94861b7e9"
 
   url "https://github.com/davidswords/randomnote/releases/download/v#{version}/randomnote_#{version}_aarch64.dmg"
   name "randomnote"
